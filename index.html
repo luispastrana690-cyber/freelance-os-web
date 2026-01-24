@@ -4,25 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>Somos Anticaos | Bases de Datos B2B Verificadas para Agencias</title>
-    <meta name="description" content="Descarga listados de leads calificados manualmente. Ahorra más de 40 horas de prospección. Datos High-Ticket para agencias de marketing y ventas.">
+    <title>Somos Anticaos | Bases de Datos B2B Verificadas Manualmente</title>
+    <meta name="description" content="Olvídate del scraping masivo. Accede a listados de leads B2B verificados manualmente. Datos listos para cerrar ventas high-ticket.">
     <meta name="keywords" content="bases de datos b2b, leads verificados, leads agencias marketing, bases de datos empresas, leads high ticket, somos anticaos">
     <meta name="author" content="Somos Anticaos">
     <link rel="canonical" href="https://www.somosanticaos.com/">
     
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.somosanticaos.com/">
-    <meta property="og:title" content="Somos Anticaos | Leads que sí convierten">
-    <meta property="og:description" content="Accede a la Bóveda de Datos. Leads verificados manualmente sin correos basura.">
+    <meta property="og:title" content="Somos Anticaos | Datos que cierran ventas">
+    <meta property="og:description" content="El caos de datos te hace perder dinero. Nosotros vendemos oro refinado.">
     <meta property="og:image" content="https://grainy-gradients.vercel.app/noise.svg">
 
     <script src="https://cdn.tailwindcss.com"></script>
     
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
@@ -31,21 +30,25 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['"Space Grotesk"', 'sans-serif'],
-                        mono: ['"JetBrains Mono"', 'monospace'],
+                        sans: ['"Inter"', 'sans-serif'],
+                        display: ['"Space Grotesk"', 'sans-serif'],
                     },
                     colors: {
                         brand: {
-                            bg: '#050505',      // Negro profundo
-                            card: '#0F1218',    // Tarjetas
+                            bg: '#020617',      // Azul Marino Profundo (Premium)
+                            card: '#0F172A',    // Slate oscuro
                             border: '#1E293B',  // Bordes sutiles
-                            primary: '#00F0FF', // Cian Cyberpunk
-                            secondary: '#3B82F6', // Azul Tech
-                            text: '#94A3B8'     // Gris texto
+                            primary: '#00F0FF', // Cian Eléctrico (Acción)
+                            accent: '#38BDF8',  // Azul cielo
+                            text: '#94A3B8',    // Gris texto
+                            white: '#F8FAFC'
                         }
                     },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    },
                     animation: {
-                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                         'float': 'float 6s ease-in-out infinite',
                     },
                     keyframes: {
@@ -60,16 +63,16 @@
     </script>
     
     <style>
-        body { background-color: #050505; color: white; overflow-x: hidden; }
+        body { background-color: #020617; color: #F8FAFC; overflow-x: hidden; }
         
-        /* Efecto Glow de fondo */
+        /* Efectos de Fondo */
         .glow-bg {
             position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(0, 240, 255, 0.15) 0%, rgba(0,0,0,0) 70%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(0, 240, 255, 0.08) 0%, rgba(2, 6, 23, 0) 70%);
             border-radius: 50%;
-            top: -200px;
+            top: -300px;
             left: 50%;
             transform: translateX(-50%);
             pointer-events: none;
@@ -77,10 +80,16 @@
         }
 
         .glass-nav {
-            background: rgba(5, 5, 5, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(2, 6, 23, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .card-hover {
@@ -88,94 +97,209 @@
         }
         .card-hover:hover {
             transform: translateY(-5px);
-            box-shadow: 0 0 30px rgba(0, 240, 255, 0.1);
-            border-color: rgba(0, 240, 255, 0.3);
+            border-color: rgba(0, 240, 255, 0.4);
+            box-shadow: 0 10px 40px -10px rgba(0, 240, 255, 0.15);
         }
 
-        /* Scrollbar personalizada */
+        /* Acordeón FAQ */
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        
+        /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #050505; }
-        ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 4px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #00F0FF; }
     </style>
 </head>
-<body class="antialiased selection:bg-[#00F0FF] selection:text-black">
+<body class="antialiased selection:bg-[#00F0FF] selection:text-black font-sans">
 
     <nav class="fixed w-full z-50 glass-nav transition-all duration-300">
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8 bg-gradient-to-br from-[#00F0FF] to-blue-600 rounded flex items-center justify-center text-black font-bold font-mono text-lg shadow-[0_0_15px_rgba(0,240,255,0.5)]">
-                    &gt;_
-                </div>
-                <span class="font-bold text-lg tracking-wide text-white">SOMOS ANTICAOS</span>
-            </div>
+            <a href="#" class="flex items-center gap-3 group">
+                <img src="logo.png" alt="Somos Anticaos Logo" class="h-10 w-auto object-contain transition-transform group-hover:scale-105"> 
+            </a>
             
-            <div class="hidden md:flex items-center gap-6 text-xs font-mono">
-                <a href="#vitrina" class="text-brand-text hover:text-white transition">EXPLORAR DATOS</a>
-                <a href="#garantia" class="text-brand-text hover:text-white transition">GARANTÍA</a>
-                <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10">
-                    <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                    <span class="text-green-400">SISTEMA OPERATIVO</span>
-                </div>
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+                <a href="#beneficios" class="text-brand-text hover:text-white transition">Por qué Anticaos</a>
+                <a href="#proceso" class="text-brand-text hover:text-white transition">Cómo funciona</a>
+                <a href="#vitrina" class="text-brand-text hover:text-white transition">Packs Disponibles</a>
+                <a href="#faq" class="text-brand-text hover:text-white transition">FAQ</a>
+                <a href="#vitrina" class="px-5 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 transition text-white font-semibold">
+                    Ver Datos
+                </a>
             </div>
         </div>
     </nav>
 
     <header class="pt-40 pb-20 relative overflow-hidden">
         <div class="glow-bg animate-pulse-slow"></div>
-        <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay"></div>
+        <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
         
         <div class="max-w-5xl mx-auto px-6 text-center relative z-10">
-            <div data-aos="fade-down" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#00F0FF]/30 bg-[#00F0FF]/5 text-[#00F0FF] text-xs font-mono mb-8 hover:bg-[#00F0FF]/10 transition cursor-default">
-                <i class="ph ph-check-circle text-lg"></i>
-                DATOS VERIFICADOS MANUALMENTE - ACTUALIZACIÓN 2026
+            <div data-aos="fade-down" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#00F0FF]/30 bg-[#00F0FF]/5 text-[#00F0FF] text-xs font-bold tracking-wider mb-8 uppercase">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00F0FF] opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-[#00F0FF]"></span>
+                </span>
+                Datos Verificados 2026
             </div>
 
-            <h1 data-aos="fade-up" class="text-5xl md:text-7xl font-bold mb-8 leading-tight tracking-tight">
+            <h1 data-aos="fade-up" class="text-5xl md:text-7xl font-display font-bold mb-6 leading-tight tracking-tight text-white">
                 Los datos crudos son un caos.<br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00F0FF] via-white to-blue-600">Nosotros vendemos oro refinado.</span>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00F0FF] via-white to-blue-500">Nosotros vendemos oro refinado.</span>
             </h1>
             
-            <p data-aos="fade-up" data-aos-delay="100" class="text-xl text-brand-text mb-10 max-w-2xl mx-auto font-light leading-relaxed">
-                Olvídate de listas de correos basura. Accede a nuestra bóveda de <strong>Leads B2B High-Ticket</strong>, verificados uno a uno para agencias que valoran su tiempo.
+            <p data-aos="fade-up" data-aos-delay="100" class="text-lg md:text-xl text-brand-text mb-10 max-w-2xl mx-auto font-light leading-relaxed">
+                Deja de perder horas limpiando Excels. Accede a bases de datos B2B <strong>verificadas manualmente</strong>, segmentadas por nicho y listas para que tu equipo comercial cierre ventas hoy mismo.
             </p>
 
             <div data-aos="fade-up" data-aos-delay="200" class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="#vitrina" class="px-8 py-4 bg-white text-black font-bold rounded-lg hover:scale-105 transition shadow-[0_0_20px_rgba(255,255,255,0.3)] flex items-center gap-2">
-                    <i class="ph-bold ph-database"></i> Ver Bases de Datos
+                <a href="#vitrina" class="w-full sm:w-auto px-8 py-4 bg-[#00F0FF] text-black font-bold rounded-lg hover:bg-[#38BDF8] transition shadow-[0_0_30px_rgba(0,240,255,0.3)] flex items-center justify-center gap-2 transform hover:-translate-y-1">
+                    <i class="ph-bold ph-lightning"></i> Acceder a la Bóveda
                 </a>
-                <a href="https://wa.me/573052509916?text=Hola,%20me%20interesa%20saber%20más%20sobre%20las%20bases%20de%20datos." target="_blank" class="px-8 py-4 bg-transparent border border-white/20 text-white font-medium rounded-lg hover:bg-white/5 transition flex items-center gap-2">
-                    <i class="ph ph-whatsapp-logo text-green-400 text-xl"></i> Hablar con un Asesor
+                <a href="#proceso" class="w-full sm:w-auto px-8 py-4 bg-transparent border border-white/10 text-white font-medium rounded-lg hover:bg-white/5 transition flex items-center justify-center gap-2">
+                    Cómo funciona
                 </a>
+            </div>
+            
+            <div data-aos="fade-in" data-aos-delay="400" class="mt-12 flex items-center justify-center gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+                <span class="text-xs font-mono text-brand-text">IDEAL PARA:</span>
+                <span class="text-sm font-semibold flex items-center gap-2"><i class="ph-fill ph-check text-[#00F0FF]"></i> Agencias</span>
+                <span class="text-sm font-semibold flex items-center gap-2"><i class="ph-fill ph-check text-[#00F0FF]"></i> Startups B2B</span>
+                <span class="text-sm font-semibold flex items-center gap-2"><i class="ph-fill ph-check text-[#00F0FF]"></i> Closers</span>
             </div>
         </div>
     </header>
 
-    <section id="garantia" class="py-12 border-y border-white/5 bg-white/[0.02]">
+    <section class="py-10 border-y border-white/5 bg-brand-card/30">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="grid md:grid-cols-3 gap-8 text-center md:text-left">
-                <div data-aos="fade-up" class="p-6 rounded-2xl bg-brand-card border border-white/5 hover:border-[#00F0FF]/30 transition group">
-                    <div class="w-12 h-12 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 mb-4 group-hover:scale-110 transition">
-                        <i class="ph-duotone ph-shield-check text-2xl"></i>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div data-aos="fade-up">
+                    <p class="text-3xl md:text-4xl font-bold text-white mb-1">100%</p>
+                    <p class="text-xs text-brand-text font-mono uppercase">Verificación Humana</p>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="100">
+                    <p class="text-3xl md:text-4xl font-bold text-white mb-1">&lt;2%</p>
+                    <p class="text-xs text-brand-text font-mono uppercase">Tasa de Rebote</p>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="200">
+                    <p class="text-3xl md:text-4xl font-bold text-white mb-1">40h+</p>
+                    <p class="text-xs text-brand-text font-mono uppercase">Ahorro Promedio/Mes</p>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="300">
+                    <p class="text-3xl md:text-4xl font-bold text-white mb-1">.XLSX</p>
+                    <p class="text-xs text-brand-text font-mono uppercase">Formato Universal</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="beneficios" class="py-24 px-6 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-display font-bold mb-4">La diferencia entre Datos y Basura</h2>
+                <p class="text-brand-text max-w-2xl mx-auto">La mayoría de proveedores te venden scraping automático lleno de correos `info@` y teléfonos desconectados. Nosotros hacemos el trabajo sucio.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div data-aos="fade-up" class="p-8 rounded-2xl glass-card hover:border-[#00F0FF]/30 transition group">
+                    <div class="w-14 h-14 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 mb-6 group-hover:scale-110 transition duration-300">
+                        <i class="ph-duotone ph-user-check text-3xl"></i>
                     </div>
-                    <h3 class="text-lg font-bold text-white mb-2">Verificación Humana</h3>
-                    <p class="text-brand-text text-sm">No utilizamos bots que extraen basura. Cada teléfono y empresa han sido validados manualmente.</p>
+                    <h3 class="text-xl font-bold text-white mb-3">Verificación Manual 1 a 1</h3>
+                    <p class="text-brand-text text-sm leading-relaxed">
+                        Un humano real llama, verifica y limpia cada registro. Si el número no conecta o el correo rebota, no entra en la lista. Así de simple.
+                    </p>
                 </div>
 
-                <div data-aos="fade-up" data-aos-delay="100" class="p-6 rounded-2xl bg-brand-card border border-white/5 hover:border-[#00F0FF]/30 transition group">
-                    <div class="w-12 h-12 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 mb-4 group-hover:scale-110 transition">
-                        <i class="ph-duotone ph-target text-2xl"></i>
+                <div data-aos="fade-up" data-aos-delay="100" class="p-8 rounded-2xl glass-card hover:border-[#00F0FF]/30 transition group">
+                    <div class="w-14 h-14 rounded-xl bg-[#00F0FF]/10 border border-[#00F0FF]/20 flex items-center justify-center text-[#00F0FF] mb-6 group-hover:scale-110 transition duration-300">
+                        <i class="ph-duotone ph-target text-3xl"></i>
                     </div>
-                    <h3 class="text-lg font-bold text-white mb-2">Nichos High-Ticket</h3>
-                    <p class="text-brand-text text-sm">Enfocados en industrias de alta rentabilidad: Construcción, Servicios del Hogar, Legal y Tecnología.</p>
+                    <h3 class="text-xl font-bold text-white mb-3">Nichos High-Ticket</h3>
+                    <p class="text-brand-text text-sm leading-relaxed">
+                        Nos enfocamos en industrias donde hay dinero: Construcción, Legal, Home Services y Tecnología. Leads con capacidad de pago real.
+                    </p>
                 </div>
 
-                <div data-aos="fade-up" data-aos-delay="200" class="p-6 rounded-2xl bg-brand-card border border-white/5 hover:border-[#00F0FF]/30 transition group">
-                    <div class="w-12 h-12 rounded-lg bg-green-500/10 flex items-center justify-center text-green-400 mb-4 group-hover:scale-110 transition">
-                        <i class="ph-duotone ph-file-xls text-2xl"></i>
+                <div data-aos="fade-up" data-aos-delay="200" class="p-8 rounded-2xl glass-card hover:border-[#00F0FF]/30 transition group">
+                    <div class="w-14 h-14 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 mb-6 group-hover:scale-110 transition duration-300">
+                        <i class="ph-duotone ph-rocket-launch text-3xl"></i>
                     </div>
-                    <h3 class="text-lg font-bold text-white mb-2">Entrega Inmediata</h3>
-                    <p class="text-brand-text text-sm">Formato Excel (.xlsx) limpio y estandarizado. Listo para importar a tu CRM o Google Sheets.</p>
+                    <h3 class="text-xl font-bold text-white mb-3">Listos para el CRM</h3>
+                    <p class="text-brand-text text-sm leading-relaxed">
+                        Recibes un archivo limpio, estandarizado y segmentado. Sin caracteres extraños ni columnas rotas. Descargar, importar y vender.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="proceso" class="py-24 bg-white/[0.02] border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div data-aos="fade-right">
+                    <h2 class="text-3xl md:text-4xl font-display font-bold mb-6">Del Caos al Orden en 3 Pasos</h2>
+                    <p class="text-brand-text mb-8">Nuestro proceso de refinamiento de datos es lo que nos separa de las herramientas automáticas.</p>
+                    
+                    <div class="space-y-8">
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-brand-border flex items-center justify-center font-bold text-white border border-white/10">1</div>
+                            <div>
+                                <h4 class="text-white font-bold mb-1">Minería Estratégica</h4>
+                                <p class="text-sm text-brand-text">Identificamos empresas activas en regiones específicas usando múltiples fuentes de datos cruzadas.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-[#00F0FF]/20 text-[#00F0FF] flex items-center justify-center font-bold border border-[#00F0FF]/30">2</div>
+                            <div>
+                                <h4 class="text-white font-bold mb-1">Filtrado Humano</h4>
+                                <p class="text-sm text-brand-text">Nuestro equipo valida la existencia del negocio y la operatividad de los canales de contacto.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-brand-border flex items-center justify-center font-bold text-white border border-white/10">3</div>
+                            <div>
+                                <h4 class="text-white font-bold mb-1">Empaquetado Premium</h4>
+                                <p class="text-sm text-brand-text">Organizamos la data en formatos accionables para equipos de venta modernos.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div data-aos="fade-left" class="relative">
+                    <div class="absolute inset-0 bg-[#00F0FF] blur-[100px] opacity-10 rounded-full"></div>
+                    <div class="relative bg-brand-card border border-white/10 rounded-2xl p-6 rotate-2 hover:rotate-0 transition duration-500">
+                        <div class="space-y-3 font-mono text-xs">
+                            <div class="flex gap-2 border-b border-white/10 pb-2 text-[#00F0FF]">
+                                <span class="w-1/4">EMPRESA</span>
+                                <span class="w-1/4">CONTACTO</span>
+                                <span class="w-1/4">EMAIL</span>
+                                <span class="w-1/4">ESTADO</span>
+                            </div>
+                            <div class="flex gap-2 text-slate-400">
+                                <span class="w-1/4 text-white">Concrete Pro..</span>
+                                <span class="w-1/4">John Doe</span>
+                                <span class="w-1/4">j.doe@conc..</span>
+                                <span class="w-1/4 text-green-400">VERIFICADO</span>
+                            </div>
+                            <div class="flex gap-2 text-slate-400 bg-white/5 p-1 -mx-1 rounded">
+                                <span class="w-1/4 text-white">Elite Roofing</span>
+                                <span class="w-1/4">Mike Smith</span>
+                                <span class="w-1/4">mike@elite..</span>
+                                <span class="w-1/4 text-green-400">VERIFICADO</span>
+                            </div>
+                            <div class="flex gap-2 text-slate-400">
+                                <span class="w-1/4 text-white">Texas Legal..</span>
+                                <span class="w-1/4">Sarah Connor</span>
+                                <span class="w-1/4">s.connor@t..</span>
+                                <span class="w-1/4 text-green-400">VERIFICADO</span>
+                            </div>
+                            <div class="mt-4 pt-4 border-t border-white/10 text-center text-[#00F0FF]">
+                                +50 Filas Verificadas
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -185,50 +309,53 @@
         <div class="max-w-7xl mx-auto">
             <div class="flex flex-col md:flex-row items-end justify-between gap-4 mb-12 border-b border-white/10 pb-6">
                 <div>
-                    <h2 class="text-3xl md:text-4xl font-bold font-sans mb-2">Bóveda de Datos</h2>
-                    <p class="text-brand-text font-mono text-sm">/// ACCESO RESTRINGIDO - SELECCIONA TU PAQUETE</p>
+                    <h2 class="text-3xl md:text-4xl font-display font-bold mb-2 text-white">Bóveda de Datos</h2>
+                    <p class="text-brand-text font-mono text-sm">/// SELECCIONA TU PAQUETE PARA COMENZAR</p>
                 </div>
                 <div class="flex items-center gap-2 text-xs font-mono text-[#00F0FF] bg-[#00F0FF]/10 px-3 py-1 rounded border border-[#00F0FF]/20">
-                    <span class="w-2 h-2 bg-[#00F0FF] rounded-full animate-ping"></span>
-                    BASE DE DATOS ACTIVA
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00F0FF] opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-[#00F0FF]"></span>
+                    </span>
+                    ACTUALIZADO: HOY
                 </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 
-                <div data-aos="fade-up" class="bg-brand-card rounded-2xl border border-white/10 p-1 overflow-hidden card-hover relative flex flex-col h-full">
+                <div data-aos="fade-up" class="bg-brand-card rounded-2xl border border-white/10 p-1 overflow-hidden card-hover relative flex flex-col h-full group">
                     <div class="h-1 w-full bg-gradient-to-r from-blue-600 via-[#00F0FF] to-blue-600"></div>
                     
-                    <div class="p-6 flex flex-col h-full">
+                    <div class="p-6 flex flex-col h-full bg-[#020617]">
                         <div class="flex justify-between items-start mb-6">
-                            <div class="px-2 py-1 bg-white/5 rounded text-xs font-mono text-slate-400 border border-white/10">REF: TX-001</div>
+                            <div class="px-2 py-1 bg-white/5 rounded text-xs font-mono text-slate-400 border border-white/10">PACK: TX-HOU-01</div>
                             <div class="flex items-center gap-1 text-green-400 text-xs font-bold bg-green-500/10 px-2 py-1 rounded border border-green-500/20">
                                 <i class="ph-fill ph-check-circle"></i> VERIFICADO
                             </div>
                         </div>
 
-                        <h3 class="text-2xl font-bold text-white mb-2">Pack Servicios Houston</h3>
-                        <p class="text-sm text-brand-text mb-6">Contratistas en Houston, TX sin sitio web. Ideal para agencias de Diseño Web y SEO.</p>
+                        <h3 class="text-2xl font-display font-bold text-white mb-2 group-hover:text-[#00F0FF] transition">Servicios Houston</h3>
+                        <p class="text-sm text-brand-text mb-6">Contratistas y Servicios del Hogar en Houston, TX sin sitio web optimizado. Clientes ideales para Diseño Web y SEO Local.</p>
 
-                        <div class="space-y-3 mb-8 bg-black/40 p-4 rounded-xl font-mono text-xs border border-white/5">
+                        <div class="space-y-3 mb-8 bg-white/[0.03] p-4 rounded-xl font-mono text-xs border border-white/5">
                             <div class="flex justify-between items-center border-b border-white/5 pb-2">
-                                <span class="text-slate-500 flex items-center gap-2"><i class="ph ph-map-pin"></i> Ubicación</span>
+                                <span class="text-slate-500 flex items-center gap-2"><i class="ph ph-map-pin"></i> Región</span>
                                 <span class="text-white">Houston, Texas</span>
                             </div>
                             <div class="flex justify-between items-center border-b border-white/5 pb-2 pt-2">
-                                <span class="text-slate-500 flex items-center gap-2"><i class="ph ph-users"></i> Cantidad</span>
-                                <span class="text-[#00F0FF] font-bold">58 Leads</span>
+                                <span class="text-slate-500 flex items-center gap-2"><i class="ph ph-users"></i> Calidad</span>
+                                <span class="text-[#00F0FF] font-bold">58 Leads Premium</span>
                             </div>
                             <div class="flex justify-between items-center pt-2">
                                 <span class="text-slate-500 flex items-center gap-2"><i class="ph ph-briefcase"></i> Nichos</span>
-                                <span class="text-white">Concreto, Árboles, Cercas</span>
+                                <span class="text-white">Construcción, Árboles</span>
                             </div>
                         </div>
 
                         <div class="mt-auto">
                             <div class="flex items-end justify-between mb-6">
                                 <div>
-                                    <div class="text-xs text-brand-text mb-1">PRECIO ÚNICO</div>
+                                    <div class="text-xs text-brand-text mb-1">INVERSIÓN ÚNICA</div>
                                     <div class="flex items-baseline gap-1">
                                         <span class="text-3xl font-bold text-white">$29</span>
                                         <span class="text-brand-text text-sm">USD</span>
@@ -238,7 +365,7 @@
                             </div>
 
                             <div class="grid grid-cols-2 gap-3">
-                                <a href="https://somos-anticaos-global.lemonsqueezy.com/checkout/buy/82b89c1e-ddfb-4e1f-9fbc-ff7a7ed275af" target="_blank" class="col-span-2 md:col-span-1 bg-white hover:bg-slate-200 text-black font-bold py-3 px-4 rounded-lg text-center transition flex items-center justify-center gap-2 group">
+                                <a href="https://somos-anticaos-global.lemonsqueezy.com/checkout/buy/82b89c1e-ddfb-4e1f-9fbc-ff7a7ed275af" target="_blank" class="col-span-2 md:col-span-1 bg-white hover:bg-[#00F0FF] text-black font-bold py-3 px-4 rounded-lg text-center transition flex items-center justify-center gap-2 group-btn">
                                     <span>Comprar</span>
                                     <i class="ph-bold ph-arrow-right group-hover:translate-x-1 transition-transform"></i>
                                 </a>
@@ -247,69 +374,117 @@
                                     <i class="ph ph-lock-key"></i> Tengo Código
                                 </button>
                             </div>
-                            <p class="text-[10px] text-center text-slate-600 mt-3">Pago seguro vía Lemon Squeezy • Entrega Inmediata</p>
+                            <p class="text-[10px] text-center text-slate-600 mt-3 flex items-center justify-center gap-1">
+                                <i class="ph-fill ph-lock-key"></i> Pago seguro vía Lemon Squeezy
+                            </p>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-brand-card/30 rounded-2xl border border-dashed border-white/10 p-6 flex flex-col justify-center items-center text-center opacity-50 hover:opacity-100 transition duration-500">
-                    <div class="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mb-6 animate-float">
-                        <i class="ph-duotone ph-map-pin text-3xl text-slate-500"></i>
+                <div class="bg-brand-card/20 rounded-2xl border border-dashed border-white/10 p-6 flex flex-col justify-center items-center text-center opacity-60 hover:opacity-100 transition duration-500 group">
+                    <div class="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition">
+                        <i class="ph-duotone ph-map-pin text-3xl text-slate-500 group-hover:text-white"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-2">Próximamente: Miami</h3>
-                    <p class="text-sm text-brand-text font-mono mb-4">Recopilando y verificando datos...</p>
-                    <span class="px-3 py-1 bg-white/5 rounded text-xs text-slate-500">Q2 2026</span>
+                    <h3 class="text-xl font-bold text-white mb-2">Miami Legal</h3>
+                    <p class="text-sm text-brand-text font-mono mb-4">Abogados y Firmas Legales</p>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/5 rounded text-xs text-slate-400">
+                        <span class="w-1.5 h-1.5 bg-yellow-500 rounded-full animate-pulse"></span>
+                        EN PROCESO: 65%
+                    </div>
+                    <span class="mt-4 text-xs text-slate-600">Lanzamiento: Q2 2026</span>
                 </div>
 
-                <div class="bg-brand-card/30 rounded-2xl border border-dashed border-white/10 p-6 flex flex-col justify-center items-center text-center opacity-50 hover:opacity-100 transition duration-500">
-                    <div class="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mb-6 animate-float" style="animation-delay: 1s;">
-                        <i class="ph-duotone ph-globe text-3xl text-slate-500"></i>
+                <div class="bg-brand-card/20 rounded-2xl border border-dashed border-white/10 p-6 flex flex-col justify-center items-center text-center opacity-60 hover:opacity-100 transition duration-500 group">
+                    <div class="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition">
+                        <i class="ph-duotone ph-globe text-3xl text-slate-500 group-hover:text-white"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-2">Próximamente: Madrid</h3>
-                    <p class="text-sm text-brand-text font-mono mb-4">Análisis de mercado en curso</p>
-                    <span class="px-3 py-1 bg-white/5 rounded text-xs text-slate-500">Q3 2026</span>
+                    <h3 class="text-xl font-bold text-white mb-2">Madrid Tech</h3>
+                    <p class="text-sm text-brand-text font-mono mb-4">Startups en etapa Seed</p>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/5 rounded text-xs text-slate-400">
+                        <span class="w-1.5 h-1.5 bg-slate-500 rounded-full"></span>
+                        PLANIFICADO
+                    </div>
+                    <span class="mt-4 text-xs text-slate-600">Lanzamiento: Q3 2026</span>
                 </div>
 
             </div>
         </div>
     </section>
 
-    <footer class="border-t border-white/10 pt-16 pb-8 bg-black">
-        <div class="max-w-7xl mx-auto px-6 text-center md:text-left">
+    <section id="faq" class="py-20 border-t border-white/5">
+        <div class="max-w-3xl mx-auto px-6">
+            <h2 class="text-3xl font-display font-bold text-center mb-12">Preguntas Frecuentes</h2>
+            
+            <div class="space-y-4">
+                <details class="group bg-brand-card border border-white/5 rounded-xl overflow-hidden">
+                    <summary class="flex justify-between items-center p-6 cursor-pointer hover:bg-white/5 transition">
+                        <h4 class="font-semibold text-white">¿Cómo sé que los correos no rebotarán?</h4>
+                        <span class="text-[#00F0FF] group-open:rotate-180 transition"><i class="ph-bold ph-caret-down"></i></span>
+                    </summary>
+                    <div class="px-6 pb-6 text-brand-text text-sm leading-relaxed border-t border-white/5 pt-4">
+                        A diferencia de bases de datos masivas, nosotros probamos los correos antes de venderlos. Nuestra tasa de rebote garantizada es menor al 2%. Si encuentras más rebotes, te reponemos los leads.
+                    </div>
+                </details>
+
+                <details class="group bg-brand-card border border-white/5 rounded-xl overflow-hidden">
+                    <summary class="flex justify-between items-center p-6 cursor-pointer hover:bg-white/5 transition">
+                        <h4 class="font-semibold text-white">¿Qué incluye el archivo de descarga?</h4>
+                        <span class="text-[#00F0FF] group-open:rotate-180 transition"><i class="ph-bold ph-caret-down"></i></span>
+                    </summary>
+                    <div class="px-6 pb-6 text-brand-text text-sm leading-relaxed border-t border-white/5 pt-4">
+                        Recibirás un archivo Excel (.xlsx) con columnas organizadas: Nombre de la Empresa, Nombre del Contacto (Dueño/Gerente), Correo Electrónico Verificado, Teléfono, Sitio Web (si tiene), Dirección y Notas del Verificador.
+                    </div>
+                </details>
+
+                <details class="group bg-brand-card border border-white/5 rounded-xl overflow-hidden">
+                    <summary class="flex justify-between items-center p-6 cursor-pointer hover:bg-white/5 transition">
+                        <h4 class="font-semibold text-white">¿Es una suscripción mensual?</h4>
+                        <span class="text-[#00F0FF] group-open:rotate-180 transition"><i class="ph-bold ph-caret-down"></i></span>
+                    </summary>
+                    <div class="px-6 pb-6 text-brand-text text-sm leading-relaxed border-t border-white/5 pt-4">
+                        No. Es un pago único por base de datos. Compras el paquete, descargas el archivo y es tuyo para siempre. Sin cargos ocultos ni renovaciones.
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <footer class="border-t border-white/10 pt-16 pb-8 bg-black/40">
+        <div class="max-w-7xl mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-between items-center gap-8 mb-12">
                 <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 bg-white rounded flex items-center justify-center text-black font-bold font-mono text-lg">
-                        &gt;_
-                    </div>
-                    <span class="font-bold text-xl tracking-wide text-white">SOMOS ANTICAOS</span>
+                    <img src="logo.png" alt="Somos Anticaos Logo" class="h-8 w-auto grayscale opacity-80 hover:opacity-100 hover:grayscale-0 transition">
                 </div>
-                <div class="flex gap-6 text-sm text-slate-400">
-                    <a href="#" class="hover:text-white transition">Términos</a>
-                    <a href="#" class="hover:text-white transition">Privacidad</a>
-                    <a href="mailto:hola@somosanticaos.com" class="hover:text-white transition">Soporte</a>
+                <div class="flex gap-6 text-sm text-slate-500">
+                    <a href="#" class="hover:text-white transition">Términos de Servicio</a>
+                    <a href="#" class="hover:text-white transition">Política de Privacidad</a>
+                    <a href="mailto:hola@somosanticaos.com" class="hover:text-[#00F0FF] transition">Soporte</a>
                 </div>
             </div>
-            <div class="text-center border-t border-white/5 pt-8">
-                <p class="text-brand-text text-sm font-mono">&copy; 2025 Somos Anticaos. Todos los derechos reservados.</p>
+            <div class="text-center border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-slate-600 text-sm font-mono">&copy; 2026 Somos Anticaos. Estrategia y Datos.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="text-slate-600 hover:text-white transition"><i class="ph-fill ph-linkedin-logo text-xl"></i></a>
+                    <a href="#" class="text-slate-600 hover:text-white transition"><i class="ph-fill ph-instagram-logo text-xl"></i></a>
+                </div>
             </div>
         </div>
     </footer>
 
-    <a href="https://wa.me/573052509916?text=Hola,%20quisiera%20más%20información%20sobre%20las%20bases%20de%20datos." 
+    <a href="https://wa.me/573052509916?text=Hola,%20tengo%20preguntas%20sobre%20las%20bases%20de%20datos%20B2B." 
        target="_blank"
        class="fixed bottom-6 right-6 z-50 bg-[#25D366] hover:bg-[#20bd5a] text-white p-4 rounded-full shadow-[0_0_20px_rgba(37,211,102,0.4)] transition-all hover:scale-110 flex items-center justify-center group">
         <i class="ph-fill ph-whatsapp-logo text-3xl"></i>
-        <span class="absolute right-full mr-3 bg-white text-black px-3 py-1 rounded-lg text-xs font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-lg">
-            ¡Hablemos!
+        <span class="absolute right-full mr-3 bg-white text-black px-4 py-2 rounded-lg text-sm font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-xl transform translate-x-2 group-hover:translate-x-0 transition-transform">
+            Hablar con Soporte
         </span>
     </a>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 800, once: true });
+        AOS.init({ duration: 800, once: true, offset: 50 });
 
-        // LÓGICA DE SEGURIDAD Y DESCARGA
-        // ⚠️ ASEGÚRATE DE PONER EL LINK DE TU GOOGLE DRIVE AQUÍ ABAJO
+        // LÓGICA DE SEGURIDAD (Sin cambios, manteniendo tu configuración)
         const baseDeDatos = {
             'houston': {
                 codigoReal: 'HOUSTON58',  
@@ -324,9 +499,9 @@
                 input: 'text',
                 inputAttributes: {
                     autocapitalize: 'off',
-                    placeholder: 'Ej: HOUSTON236'
+                    placeholder: 'Ej: HOUSTON58'
                 },
-                background: '#0F1218',
+                background: '#0F172A',
                 color: '#fff',
                 confirmButtonText: 'DESBLOQUEAR BÓVEDA',
                 confirmButtonColor: '#00F0FF',
@@ -334,10 +509,10 @@
                 cancelButtonColor: '#334155',
                 buttonsStyling: true,
                 customClass: {
-                    popup: 'border border-white/10 rounded-2xl',
-                    confirmButton: 'text-black font-bold px-6 py-3 rounded-lg',
-                    cancelButton: 'text-white px-6 py-3 rounded-lg',
-                    input: 'text-center font-mono uppercase bg-black/50 border-white/20 text-white text-lg focus:border-[#00F0FF] focus:ring-1 focus:ring-[#00F0FF]'
+                    popup: 'border border-white/10 rounded-2xl shadow-2xl shadow-[#00F0FF]/10',
+                    confirmButton: 'text-black font-bold px-6 py-3 rounded-lg hover:bg-[#38BDF8] transition',
+                    cancelButton: 'text-white px-6 py-3 rounded-lg hover:bg-white/5 transition',
+                    input: 'text-center font-mono uppercase bg-black/50 border-white/20 text-white text-lg focus:border-[#00F0FF] focus:ring-1 focus:ring-[#00F0FF] rounded-lg'
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -352,9 +527,13 @@
                             html: 'Desencriptando archivo en <b></b> milisegundos...',
                             timer: 2000,
                             timerProgressBar: true,
-                            background: '#0F1218',
+                            background: '#0F172A',
                             color: '#fff',
                             confirmButtonColor: '#00F0FF',
+                            customClass: {
+                                popup: 'border border-white/10 rounded-2xl',
+                                confirmButton: 'text-black font-bold'
+                            },
                             didOpen: () => {
                                 Swal.showLoading()
                                 const b = Swal.getHtmlContainer().querySelector('b')
@@ -373,10 +552,13 @@
                             icon: 'error',
                             title: 'ACCESO DENEGADO',
                             text: 'El código introducido no es válido o ha expirado.',
-                            background: '#0F1218',
+                            background: '#0F172A',
                             color: '#fff',
                             confirmButtonColor: '#ef4444',
-                            confirmButtonText: 'Reintentar'
+                            confirmButtonText: 'Reintentar',
+                            customClass: {
+                                popup: 'border border-red-900/50 rounded-2xl',
+                            }
                         });
                     }
                 }
@@ -385,5 +567,3 @@
     </script>
 </body>
 </html>
-
-
