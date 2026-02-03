@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://somosanticaos.com/sitemap.xml
