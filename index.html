@@ -1082,146 +1082,158 @@
     let count = parseInt(localStorage.getItem('ac_tool_usage') || 0);
 
     async function validateEmail() {
-        const emailInput = document.getElementById('email-input');
-        const email = emailInput.value.trim();
-        const panel = document.getElementById('result-panel');
-        const searchInterface = document.getElementById('search-interface');
+    const emailInput = document.getElementById('email-input');
+    const email = emailInput.value.trim();
+    const panel = document.getElementById('result-panel');
+    const searchInterface = document.getElementById('search-interface');
 
-        // 1. Validaciones básicas
-        if (!email.includes('@') || !email.includes('.')) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Correo incompleto',
-                text: 'Por favor escribe un correo válido.',
-                background: '#0F172A',
-                color: '#fff',
-                confirmButtonColor: '#00F0FF',
-                customClass: { confirmButton: 'text-black font-bold' }
+    // 1. Validaciones básicas
+    if (!email.includes('@') || !email.includes('.')) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Correo incompleto',
+            text: 'Por favor escribe un correo válido.',
+            background: '#0F172A',
+            color: '#fff',
+            confirmButtonColor: '#00F0FF',
+            customClass: { confirmButton: 'text-black font-bold' }
+        });
+        return;
+    }
+
+    // 2. Verificar Límite (Invisible)
+    if (count >= LIMIT) {
+        mostrarFormularioCaptura("Has alcanzado el límite de consultas gratuitas.");
+        return;
+    }
+
+    // 3. Estado de Carga (UI)
+    panel.classList.remove('hidden');
+    panel.innerHTML = `
+        <div class="text-center py-8">
+            <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-[#00F0FF] border-t-transparent mb-4"></div>
+            <p class="text-[#00F0FF] font-mono text-sm animate-pulse">ESCANEANDO SERVIDORES SMTP...</p>
+        </div>
+    `;
+
+    try {
+        // Proxy para evitar CORS
+        const targetUrl = `https://emailreputation.abstractapi.com/v1/?api_key=${API_KEY}&email=${email}`;
+        const res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`);
+        
+        if (!res.ok) throw new Error("Error API");
+        const data = await res.json();
+
+        // Aumentar contador silencioso
+        count++;
+        localStorage.setItem('ac_tool_usage', count);
+
+        // --- LÓGICA DE INTERPRETACIÓN ---
+        const quality = data.email_quality || {};
+        const sender = data.email_sender || {};
+        const deliverability = data.email_deliverability || {};
+
+        const score = quality.score ? Math.round(quality.score * 100) : 0;
+        const status = deliverability.status || "UNKNOWN";
+
+        // ============================================================
+        // [NUEVO] RASTREO DE EVENTOS GA4
+        // ============================================================
+        if (typeof gtag === 'function') {
+            gtag('event', 'uso_validador', {
+                'event_category': 'Herramienta',
+                'event_label': status, // Ej: 'DELIVERABLE', 'CATCH_ALL'
+                'value': score         // Ej: 99
             });
-            return;
+            console.log(`📡 Datos enviados a GA4: ${status} | Score: ${score}`);
+        }
+        // ============================================================
+        
+        // Determinar Nombre Empresa
+        let companyName = sender.organization_name;
+        if (!companyName && sender.email_provider_name) companyName = sender.email_provider_name;
+        if (!companyName) companyName = email.split('@')[1].split('.')[0].toUpperCase();
+
+        // Determinar Estado Visual
+        let colorClass = "text-red-400";
+        let bgClass = "bg-red-500/10 border-red-500/20";
+        let icon = "ph-warning";
+        let title = "RIESGO ALTO";
+        let msg = "Este correo no existe o está bloqueado.";
+        let showLeadMagnet = false;
+
+        if (quality.is_role) {
+            colorClass = "text-orange-400";
+            bgClass = "bg-orange-500/10 border-orange-500/20";
+            title = "CORREO GENÉRICO";
+            msg = `Es un buzón de rol (info, admin). Baja tasa de apertura.`;
+        } else if (quality.is_free_email) {
+            colorClass = "text-yellow-400";
+            bgClass = "bg-yellow-500/10 border-yellow-500/20";
+            title = "CORREO PERSONAL";
+            msg = "Es válido (Gmail/Outlook), pero poco profesional para B2B.";
+        } else if (status === "catchall" || quality.is_catchall) {
+            colorClass = "text-purple-400";
+            bgClass = "bg-purple-500/10 border-purple-500/20";
+            icon = "ph-shield-check";
+            title = "FIREWALL CORPORATIVO";
+            msg = `Dominio protegido. Requiere verificación manual (lo que hacemos nosotros).`;
+            showLeadMagnet = true; // Aquí ofrecemos servicio
+        } else if (status === "deliverable" && score >= 70) {
+            colorClass = "text-[#00F0FF]";
+            bgClass = "bg-[#00F0FF]/10 border-[#00F0FF]/20";
+            icon = "ph-check-circle";
+            title = "CORREO VÁLIDO";
+            msg = `Cuenta activa y segura en <b>${companyName}</b>.`;
         }
 
-        // 2. Verificar Límite (Invisible)
-        if (count >= LIMIT) {
-            mostrarFormularioCaptura("Has alcanzado el límite de consultas gratuitas.");
-            return;
-        }
-
-        // 3. Estado de Carga (UI)
-        panel.classList.remove('hidden');
+        // --- RENDERIZAR RESULTADO (Tailwind Puro) ---
         panel.innerHTML = `
-            <div class="text-center py-8">
-                <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-[#00F0FF] border-t-transparent mb-4"></div>
-                <p class="text-[#00F0FF] font-mono text-sm animate-pulse">ESCANEANDO SERVIDORES SMTP...</p>
+            <div class="rounded-xl border ${bgClass} p-6 relative overflow-hidden transition-all duration-500">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <div class="flex items-center gap-2 ${colorClass} font-bold text-lg mb-1">
+                            <i class="ph-fill ${icon} text-2xl"></i> ${title}
+                        </div>
+                        <p class="text-slate-400 text-sm">${msg}</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="block text-2xl font-bold text-white">${score}%</span>
+                        <span class="text-[10px] text-slate-500 uppercase tracking-widest">Confianza</span>
+                    </div>
+                </div>
+
+                <div class="w-full h-2 bg-black/50 rounded-full mb-6 overflow-hidden">
+                    <div class="h-full ${colorClass.replace('text-', 'bg-')} transition-all duration-1000" style="width: ${score}%"></div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 text-xs font-mono text-slate-500 bg-black/20 p-4 rounded-lg">
+                    <div>
+                        <span class="block text-slate-600 mb-1">ORGANIZACIÓN</span>
+                        <span class="text-white">${companyName}</span>
+                    </div>
+                    <div>
+                        <span class="block text-slate-600 mb-1">TIPO</span>
+                        <span class="text-white">${sender.organization_type || 'GENERAL'}</span>
+                    </div>
+                </div>
+
+                ${showLeadMagnet ? `
+                    <div class="mt-6 pt-6 border-t border-white/5 text-center">
+                        <p class="text-white text-sm mb-3">Este es un correo difícil. <b>El bot duda, pero nosotros no.</b></p>
+                        <button onclick="mostrarFormularioCaptura('Solicitud Manual: ${email}')" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-lg transition flex items-center justify-center gap-2">
+                            <i class="ph-bold ph-user-focus"></i> Solicitar Verificación Humana (Gratis)
+                        </button>
+                    </div>
+                ` : ''}
             </div>
         `;
 
-        try {
-            // Proxy para evitar CORS
-            const targetUrl = `https://emailreputation.abstractapi.com/v1/?api_key=${API_KEY}&email=${email}`;
-            const res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`);
-            
-            if (!res.ok) throw new Error("Error API");
-            const data = await res.json();
-
-            // Aumentar contador silencioso
-            count++;
-            localStorage.setItem('ac_tool_usage', count);
-
-            // --- LÓGICA DE INTERPRETACIÓN ---
-            const quality = data.email_quality || {};
-            const sender = data.email_sender || {};
-            const deliverability = data.email_deliverability || {};
-
-            const score = quality.score ? Math.round(quality.score * 100) : 0;
-            const status = deliverability.status || "UNKNOWN";
-            
-            // Determinar Nombre Empresa
-            let companyName = sender.organization_name;
-            if (!companyName && sender.email_provider_name) companyName = sender.email_provider_name;
-            if (!companyName) companyName = email.split('@')[1].split('.')[0].toUpperCase();
-
-            // Determinar Estado Visual
-            let colorClass = "text-red-400";
-            let bgClass = "bg-red-500/10 border-red-500/20";
-            let icon = "ph-warning";
-            let title = "RIESGO ALTO";
-            let msg = "Este correo no existe o está bloqueado.";
-            let showLeadMagnet = false;
-
-            if (quality.is_role) {
-                colorClass = "text-orange-400";
-                bgClass = "bg-orange-500/10 border-orange-500/20";
-                title = "CORREO GENÉRICO";
-                msg = `Es un buzón de rol (info, admin). Baja tasa de apertura.`;
-            } else if (quality.is_free_email) {
-                colorClass = "text-yellow-400";
-                bgClass = "bg-yellow-500/10 border-yellow-500/20";
-                title = "CORREO PERSONAL";
-                msg = "Es válido (Gmail/Outlook), pero poco profesional para B2B.";
-            } else if (status === "catchall" || quality.is_catchall) {
-                colorClass = "text-purple-400";
-                bgClass = "bg-purple-500/10 border-purple-500/20";
-                icon = "ph-shield-check";
-                title = "FIREWALL CORPORATIVO";
-                msg = `Dominio protegido. Requiere verificación manual (lo que hacemos nosotros).`;
-                showLeadMagnet = true; // Aquí ofrecemos servicio
-            } else if (status === "deliverable" && score >= 70) {
-                colorClass = "text-[#00F0FF]";
-                bgClass = "bg-[#00F0FF]/10 border-[#00F0FF]/20";
-                icon = "ph-check-circle";
-                title = "CORREO VÁLIDO";
-                msg = `Cuenta activa y segura en <b>${companyName}</b>.`;
-            }
-
-            // --- RENDERIZAR RESULTADO (Tailwind Puro) ---
-            panel.innerHTML = `
-                <div class="rounded-xl border ${bgClass} p-6 relative overflow-hidden transition-all duration-500">
-                    <div class="flex items-start justify-between mb-4">
-                        <div>
-                            <div class="flex items-center gap-2 ${colorClass} font-bold text-lg mb-1">
-                                <i class="ph-fill ${icon} text-2xl"></i> ${title}
-                            </div>
-                            <p class="text-slate-400 text-sm">${msg}</p>
-                        </div>
-                        <div class="text-right">
-                            <span class="block text-2xl font-bold text-white">${score}%</span>
-                            <span class="text-[10px] text-slate-500 uppercase tracking-widest">Confianza</span>
-                        </div>
-                    </div>
-
-                    <div class="w-full h-2 bg-black/50 rounded-full mb-6 overflow-hidden">
-                        <div class="h-full ${colorClass.replace('text-', 'bg-')} transition-all duration-1000" style="width: ${score}%"></div>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-4 text-xs font-mono text-slate-500 bg-black/20 p-4 rounded-lg">
-                        <div>
-                            <span class="block text-slate-600 mb-1">ORGANIZACIÓN</span>
-                            <span class="text-white">${companyName}</span>
-                        </div>
-                        <div>
-                            <span class="block text-slate-600 mb-1">TIPO</span>
-                            <span class="text-white">${sender.organization_type || 'GENERAL'}</span>
-                        </div>
-                    </div>
-
-                    ${showLeadMagnet ? `
-                        <div class="mt-6 pt-6 border-t border-white/5 text-center">
-                            <p class="text-white text-sm mb-3">Este es un correo difícil. <b>El bot duda, pero nosotros no.</b></p>
-                            <button onclick="mostrarFormularioCaptura('Solicitud Manual: ${email}')" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-lg transition flex items-center justify-center gap-2">
-                                <i class="ph-bold ph-user-focus"></i> Solicitar Verificación Humana (Gratis)
-                            </button>
-                        </div>
-                    ` : ''}
-                </div>
-            `;
-
-        } catch (e) {
-            console.error(e);
-            panel.innerHTML = `<div class="text-red-400 text-center p-4 border border-red-500/20 bg-red-500/5 rounded-xl">Error de conexión. Intenta de nuevo.</div>`;
-        }
+    } catch (e) {
+        console.error(e);
+        panel.innerHTML = `<div class="text-red-400 text-center p-4 border border-red-500/20 bg-red-500/5 rounded-xl">Error de conexión. Intenta de nuevo.</div>`;
     }
-
+}
     // --- FUNCIÓN PARA MOSTRAR FORMULARIO (CUANDO SE BLOQUEA O SE PIDE MANUAL) ---
     function mostrarFormularioCaptura(motivo) {
         const interfaceDiv = document.getElementById('search-interface');
@@ -1270,6 +1282,7 @@
 </script>
 </body>
 </html>
+
 
 
 
