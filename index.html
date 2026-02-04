@@ -3,40 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<link rel="shortcut icon" href="/favicon.ico" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-<meta name="apple-mobile-web-app-title" content="Anticaos" />
-<link rel="manifest" href="/site.webmanifest" />
+    
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Anticaos" />
+    <link rel="manifest" href="/site.webmanifest" />
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-FYX0SMT88K"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-FYX0SMT88K');
     </script>
-    <title>Somos Anticaos | Bases de Datos B2B Verificadas Manualmente</title>
-    <meta name="description" content="Olvídate del scraping masivo. Accede a listados de leads B2B verificados manualmente. Datos listos para cerrar ventas high-ticket.">
-    <meta name="keywords" content="bases de datos b2b, leads verificados, leads agencias marketing, bases de datos empresas, leads high ticket, somos anticaos">
+
+    <title>Validador de Correos Gratis & Bases de Datos B2B | Somos Anticaos</title>
+    <meta name="description" content="¿Tu lista rebota? Usa nuestro Validador de Correos gratuito para verificar emails. Accede también a bases de datos B2B verificadas manualmente para ventas High-Ticket.">
+    
+    <meta name="keywords" content="validador de correos gratis, verificar email online, limpiar lista de correos, bases de datos b2b, leads verificados, leads agencias marketing, bases de datos empresas, leads high ticket, somos anticaos">
+    
     <meta name="author" content="Somos Anticaos">
     <link rel="canonical" href="https://www.somosanticaos.com/">
     
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.somosanticaos.com/">
-    <meta property="og:title" content="Somos Anticaos | Datos que cierran ventas">
-    <meta property="og:description" content="El caos de datos te hace perder dinero. Nosotros vendemos oro refinado.">
+    <meta property="og:title" content="Validador de Correos & Datos B2B | Somos Anticaos">
+    <meta property="og:description" content="El caos de datos te hace perder dinero. Valida tus correos gratis o compra bases de datos verificadas manualmente.">
     <meta property="og:image" content="https://www.somosanticaos.com/logo.png">
     <meta name="twitter:image" content="https://www.somosanticaos.com/logo.png">
 
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
     <script>
@@ -64,11 +65,16 @@
                     animation: {
                         'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                         'float': 'float 6s ease-in-out infinite',
+                        'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
                     },
                     keyframes: {
                         float: {
                             '0%, 100%': { transform: 'translateY(0)' },
                             '50%': { transform: 'translateY(-10px)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
                         }
                     }
                 }
@@ -125,42 +131,58 @@
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #00F0FF; }
     </style>
+
     <script type="application/ld+json">
-[
-  {
-    "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    "name": "Somos Anticaos",
-    "url": "https://somosanticaos.com",
-    "logo": "https://somosanticaos.com/logo.png",
-    "description": "Proveedor premium de bases de datos B2B verificadas manualmente para agencias y startups.",
-    "priceRange": "$$",
-    "address": {
-      "@type": "PostalAddress",
-      "addressCountry": "CO"
-    },
-    "sameAs": [
-      "https://www.linkedin.com/company/somosanticaos",
-      "https://instagram.com/somosanticaos"
+    [
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "Somos Anticaos",
+        "url": "https://somosanticaos.com",
+        "logo": "https://somosanticaos.com/logo.png",
+        "description": "Proveedor premium de bases de datos B2B verificadas manualmente para agencias y startups.",
+        "priceRange": "$$",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "CO"
+        },
+        "sameAs": [
+          "https://www.linkedin.com/company/somosanticaos",
+          "https://instagram.com/somosanticaos"
+        ]
+      },
+      {
+        "@context": "https://schema.org/",
+        "@type": "WebApplication",
+        "name": "Validador de Correos Anticaos",
+        "url": "https://somosanticaos.com/#validador",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "All",
+        "description": "Herramienta gratuita para verificar la existencia de correos electrónicos corporativos y detectar catch-all.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "featureList": "Verificación SMTP, Detección de Catch-all, Análisis de DNS"
+      },
+      {
+        "@context": "https://schema.org/",
+        "@type": "Dataset",
+        "name": "Base de Datos B2B Premium Colombia & Latam - Verificada Manualmente",
+        "description": "Base de datos verificada manualmente con correos corporativos y tomadores de decisiones. Cero rebotes garantizado para sectores High-Ticket.",
+        "url": "https://somosanticaos.com",
+        "keywords": ["B2B Leads", "Base de datos colombia", "Prospectos comerciales"],
+        "creator": {
+          "@type": "Organization",
+          "name": "Somos Anticaos",
+          "url": "https://somosanticaos.com"
+        },
+        "isAccessibleForFree": false,
+        "license": "https://somosanticaos.com/terminos"
+      }
     ]
-  },
-  {
-    "@context": "https://schema.org/",
-    "@type": "Dataset",
-    "name": "Base de Datos B2B Premium Colombia & Latam - Verificada Manualmente",
-    "description": "Base de datos verificada manualmente con correos corporativos y tomadores de decisiones. Cero rebotes garantizado para sectores High-Ticket.",
-    "url": "https://somosanticaos.com",
-    "keywords": ["B2B Leads", "Base de datos colombia", "Prospectos comerciales"],
-    "creator": {
-      "@type": "Organization",
-      "name": "Somos Anticaos",
-      "url": "https://somosanticaos.com"
-    },
-    "isAccessibleForFree": false,
-    "license": "https://somosanticaos.com/terminos"
-  }
-]
-</script>
+    </script>
 </head>
 <body class="antialiased selection:bg-[#00F0FF] selection:text-black font-sans">
 
@@ -190,10 +212,9 @@
     <a href="#faq" class="text-brand-text hover:text-white transition flex items-center gap-1.5 group">
         <i class="ph ph-question text-lg group-hover:text-[#00F0FF] transition"></i> FAQ
     </a>
-
-    <a href="#vitrina" class="px-5 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 transition text-white font-semibold flex items-center gap-2 group">
-        <i class="ph-bold ph-database group-hover:animate-pulse"></i> Ver Datos
-    </a>
+    <a href="#validador" class="px-5 py-2 rounded-full bg-[#00F0FF]/10 hover:bg-[#00F0FF]/20 border border-[#00F0FF]/30 transition text-[#00F0FF] font-semibold flex items-center gap-2 group">
+    <i class="ph-bold ph-magnifying-glass group-hover:animate-pulse"></i> Validar Email
+</a>
 </div>
         </div>
     </nav>
@@ -237,6 +258,49 @@
             </div>
         </div>
     </header>
+    <section id="validador" class="py-24 relative border-b border-white/5">
+    <div class="max-w-4xl mx-auto px-6 relative z-10">
+        
+        <div class="text-center mb-10" data-aos="fade-up">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-bold mb-4 uppercase tracking-wider">
+                <i class="ph-fill ph-wrench"></i> Herramienta Gratuita
+            </div>
+            <h2 class="text-3xl md:text-4xl font-display font-bold text-white mb-4">
+                ¿Tus correos están <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">quemando</span> tu dominio?
+            </h2>
+            <p class="text-brand-text max-w-xl mx-auto text-lg">
+                No envíes a ciegas. Usa nuestra tecnología de verificación en tiempo real para saber si un correo es seguro antes de enviarlo.
+            </p>
+        </div>
+
+        <div data-aos="zoom-in" class="bg-brand-card/80 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-[0_0_60px_rgba(0,240,255,0.05)] relative overflow-hidden">
+            
+            <div id="search-interface" class="relative z-10">
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="relative flex-grow">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <i class="ph ph-detective text-slate-500 text-xl"></i>
+                        </div>
+                        <input type="email" id="email-input" placeholder="Ej: gerencia@empresa.com" 
+                            class="w-full bg-[#020617] border border-white/10 rounded-xl py-4 pl-12 pr-4 text-white placeholder-slate-600 focus:outline-none focus:border-[#00F0FF] focus:ring-1 focus:ring-[#00F0FF] transition text-lg">
+                    </div>
+                    <button onclick="validateEmail()" 
+                        class="bg-[#00F0FF] hover:bg-[#38BDF8] text-black font-bold py-4 px-8 rounded-xl transition transform hover:-translate-y-1 shadow-[0_0_20px_rgba(0,240,255,0.3)] flex items-center justify-center gap-2 text-lg">
+                        <span>ANALIZAR</span>
+                        <i class="ph-bold ph-scan"></i>
+                    </button>
+                </div>
+                <p class="text-center text-xs text-slate-600 mt-4 flex items-center justify-center gap-1">
+                    <i class="ph-fill ph-cpu"></i> Powered by Abstract API & Anticaos Engine
+                </p>
+            </div>
+
+            <div id="result-panel" class="hidden mt-8 animate-fade-in-up">
+                </div>
+
+        </div>
+    </div>
+</section>
 <section id="muestra-gratis" class="py-24 relative overflow-hidden">
     <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-[#00F0FF]/5 rounded-full blur-[120px] pointer-events-none"></div>
 
@@ -556,13 +620,13 @@
 
                             <div class="grid grid-cols-2 gap-3">
                                 <a href="https://somos-anticaos-global.lemonsqueezy.com/checkout/buy/82b89c1e-ddfb-4e1f-9fbc-ff7a7ed275af" target="_blank" class="col-span-2 md:col-span-1 bg-white hover:bg-[#00F0FF] text-black font-bold py-3 px-4 rounded-lg text-center transition flex items-center justify-center gap-2 group-btn">
-                                    <span>Comprar</span>
+                                    <span>COMPRAR</span>
                                     <i class="ph-bold ph-arrow-right group-hover:translate-x-1 transition-transform"></i>
                                 </a>
                                 
-                                <button onclick="pedirCodigo('houston')" class="col-span-2 md:col-span-1 bg-transparent border border-white/20 hover:bg-white/10 text-white py-3 px-4 rounded-lg text-center transition font-mono text-xs flex items-center justify-center gap-2">
-                                    <i class="ph ph-lock-key"></i> Tengo Código
-                                </button>
+                                <button onclick="pedirCodigo('houston')" class="col-span-2 md:col-span-1 border border-white/20 hover:bg-white/10 text-white py-3 rounded-lg text-center transition text-xs flex items-center justify-center gap-2">
+    <i class="ph ph-lock-key"></i> TENGO CÓDIGO
+</button>
                             </div>
                             <p class="text-[10px] text-center text-slate-600 mt-3 flex items-center justify-center gap-1">
                                 <i class="ph-fill ph-lock-key"></i> Pago seguro vía Lemon Squeezy
@@ -619,13 +683,12 @@
 
                             <div class="grid grid-cols-2 gap-3">
                                 <a href="https://somos-anticaos-global.lemonsqueezy.com/checkout/buy/0dccdc19-4b61-46ba-82e5-e85a5f9092de" target="_blank" class="col-span-2 md:col-span-1 bg-white hover:bg-[#00F0FF] hover:text-black text-black font-bold py-3 px-4 rounded-lg text-center transition flex items-center justify-center gap-2 group-btn">
-                                    <span>Comprar</span>
+                                    <span>COMPRAR</span>
                                     <i class="ph-bold ph-arrow-right group-hover:translate-x-1 transition-transform"></i>
                                 </a>
-                                
-                                <button onclick="pedirCodigo('miami')" class="col-span-2 md:col-span-1 border border-white/20 hover:bg-white/10 text-white py-3 rounded-lg text-center transition text-xs flex items-center justify-center gap-2">
-                                    <i class="ph ph-lock-key"></i> Tengo Código
-                                </button>
+                                <button onclick="pedirCodigo('houston')" class="col-span-2 md:col-span-1 border border-white/20 hover:bg-white/10 text-white py-3 rounded-lg text-center transition text-xs flex items-center justify-center gap-2">
+    <i class="ph ph-lock-key"></i> TENGO CÓDIGO
+</button>
                             </div>
                             <p class="text-[10px] text-center text-slate-600 mt-3 flex items-center justify-center gap-1">
                                 <i class="ph-fill ph-shield-check"></i> Garantía de Cero Rebotes
@@ -679,12 +742,12 @@
                             </div>
                             <div class="grid grid-cols-2 gap-3">
                                 <a href="https://somos-anticaos-global.lemonsqueezy.com/checkout/buy/f91d28d5-87a0-47b4-9fad-bc217ddc0e6b" target="_blank" class="col-span-2 md:col-span-1 bg-white hover:bg-purple-500 hover:text-white text-black font-bold py-3 px-4 rounded-lg text-center transition flex items-center justify-center gap-2 group-btn">
-                                    <span>Comprar</span>
+                                    <span>COMPRAR</span>
                                     <i class="ph-bold ph-arrow-right group-hover:translate-x-1 transition-transform"></i>
                                 </a>
                                 
                                 <button onclick="pedirCodigo('beauty')" class="col-span-2 md:col-span-1 border border-white/20 hover:bg-white/10 text-white py-3 rounded-lg text-center transition text-xs flex items-center justify-center gap-2">
-                                    <i class="ph ph-lock-key"></i>Tengo Código
+                                    <i class="ph ph-lock-key"></i>TENGO CÓDIGO
                                 </button>
                             </div>
                             <p class="text-[10px] text-center text-slate-600 mt-3 flex items-center justify-center gap-1">
@@ -950,5 +1013,203 @@
         });
     }
 </script>
+<script>
+    // === LÓGICA DEL VALIDADOR ANTICAOS ===
+    
+    const API_KEY = "41a0ba0b383f4c3eb60925b3130f7aea"; // Tu API Key
+    const LIMIT = 5; // Límite silencioso de intentos
+    const FORM_LEAD_URL = "https://formspree.io/f/xlgnvvzq"; // Tu Formspree
+
+    // Contador en localStorage (Invisible para el usuario)
+    let count = parseInt(localStorage.getItem('ac_tool_usage') || 0);
+
+    async function validateEmail() {
+        const emailInput = document.getElementById('email-input');
+        const email = emailInput.value.trim();
+        const panel = document.getElementById('result-panel');
+        const searchInterface = document.getElementById('search-interface');
+
+        // 1. Validaciones básicas
+        if (!email.includes('@') || !email.includes('.')) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Correo incompleto',
+                text: 'Por favor escribe un correo válido.',
+                background: '#0F172A',
+                color: '#fff',
+                confirmButtonColor: '#00F0FF',
+                customClass: { confirmButton: 'text-black font-bold' }
+            });
+            return;
+        }
+
+        // 2. Verificar Límite (Invisible)
+        if (count >= LIMIT) {
+            mostrarFormularioCaptura("Has alcanzado el límite de consultas gratuitas.");
+            return;
+        }
+
+        // 3. Estado de Carga (UI)
+        panel.classList.remove('hidden');
+        panel.innerHTML = `
+            <div class="text-center py-8">
+                <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-[#00F0FF] border-t-transparent mb-4"></div>
+                <p class="text-[#00F0FF] font-mono text-sm animate-pulse">ESCANEANDO SERVIDORES SMTP...</p>
+            </div>
+        `;
+
+        try {
+            // Proxy para evitar CORS
+            const targetUrl = `https://emailreputation.abstractapi.com/v1/?api_key=${API_KEY}&email=${email}`;
+            const res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`);
+            
+            if (!res.ok) throw new Error("Error API");
+            const data = await res.json();
+
+            // Aumentar contador silencioso
+            count++;
+            localStorage.setItem('ac_tool_usage', count);
+
+            // --- LÓGICA DE INTERPRETACIÓN ---
+            const quality = data.email_quality || {};
+            const sender = data.email_sender || {};
+            const deliverability = data.email_deliverability || {};
+
+            const score = quality.score ? Math.round(quality.score * 100) : 0;
+            const status = deliverability.status || "UNKNOWN";
+            
+            // Determinar Nombre Empresa
+            let companyName = sender.organization_name;
+            if (!companyName && sender.email_provider_name) companyName = sender.email_provider_name;
+            if (!companyName) companyName = email.split('@')[1].split('.')[0].toUpperCase();
+
+            // Determinar Estado Visual
+            let colorClass = "text-red-400";
+            let bgClass = "bg-red-500/10 border-red-500/20";
+            let icon = "ph-warning";
+            let title = "RIESGO ALTO";
+            let msg = "Este correo no existe o está bloqueado.";
+            let showLeadMagnet = false;
+
+            if (quality.is_role) {
+                colorClass = "text-orange-400";
+                bgClass = "bg-orange-500/10 border-orange-500/20";
+                title = "CORREO GENÉRICO";
+                msg = `Es un buzón de rol (info, admin). Baja tasa de apertura.`;
+            } else if (quality.is_free_email) {
+                colorClass = "text-yellow-400";
+                bgClass = "bg-yellow-500/10 border-yellow-500/20";
+                title = "CORREO PERSONAL";
+                msg = "Es válido (Gmail/Outlook), pero poco profesional para B2B.";
+            } else if (status === "catchall" || quality.is_catchall) {
+                colorClass = "text-purple-400";
+                bgClass = "bg-purple-500/10 border-purple-500/20";
+                icon = "ph-shield-check";
+                title = "FIREWALL CORPORATIVO";
+                msg = `Dominio protegido. Requiere verificación manual (lo que hacemos nosotros).`;
+                showLeadMagnet = true; // Aquí ofrecemos servicio
+            } else if (status === "deliverable" && score >= 70) {
+                colorClass = "text-[#00F0FF]";
+                bgClass = "bg-[#00F0FF]/10 border-[#00F0FF]/20";
+                icon = "ph-check-circle";
+                title = "CORREO VÁLIDO";
+                msg = `Cuenta activa y segura en <b>${companyName}</b>.`;
+            }
+
+            // --- RENDERIZAR RESULTADO (Tailwind Puro) ---
+            panel.innerHTML = `
+                <div class="rounded-xl border ${bgClass} p-6 relative overflow-hidden transition-all duration-500">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <div class="flex items-center gap-2 ${colorClass} font-bold text-lg mb-1">
+                                <i class="ph-fill ${icon} text-2xl"></i> ${title}
+                            </div>
+                            <p class="text-slate-400 text-sm">${msg}</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="block text-2xl font-bold text-white">${score}%</span>
+                            <span class="text-[10px] text-slate-500 uppercase tracking-widest">Confianza</span>
+                        </div>
+                    </div>
+
+                    <div class="w-full h-2 bg-black/50 rounded-full mb-6 overflow-hidden">
+                        <div class="h-full ${colorClass.replace('text-', 'bg-')} transition-all duration-1000" style="width: ${score}%"></div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 text-xs font-mono text-slate-500 bg-black/20 p-4 rounded-lg">
+                        <div>
+                            <span class="block text-slate-600 mb-1">ORGANIZACIÓN</span>
+                            <span class="text-white">${companyName}</span>
+                        </div>
+                        <div>
+                            <span class="block text-slate-600 mb-1">TIPO</span>
+                            <span class="text-white">${sender.organization_type || 'GENERAL'}</span>
+                        </div>
+                    </div>
+
+                    ${showLeadMagnet ? `
+                        <div class="mt-6 pt-6 border-t border-white/5 text-center">
+                            <p class="text-white text-sm mb-3">Este es un correo difícil. <b>El bot duda, pero nosotros no.</b></p>
+                            <button onclick="mostrarFormularioCaptura('Solicitud Manual: ${email}')" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-lg transition flex items-center justify-center gap-2">
+                                <i class="ph-bold ph-user-focus"></i> Solicitar Verificación Humana (Gratis)
+                            </button>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+
+        } catch (e) {
+            console.error(e);
+            panel.innerHTML = `<div class="text-red-400 text-center p-4 border border-red-500/20 bg-red-500/5 rounded-xl">Error de conexión. Intenta de nuevo.</div>`;
+        }
+    }
+
+    // --- FUNCIÓN PARA MOSTRAR FORMULARIO (CUANDO SE BLOQUEA O SE PIDE MANUAL) ---
+    function mostrarFormularioCaptura(motivo) {
+        const interfaceDiv = document.getElementById('search-interface');
+        const panelDiv = document.getElementById('result-panel');
+
+        // Ocultamos el buscador y mostramos el form
+        interfaceDiv.classList.add('hidden');
+        panelDiv.classList.remove('hidden');
+
+        panelDiv.innerHTML = `
+            <div class="bg-[#020617] p-8 rounded-xl border border-white/10 text-center animate-fade-in-up">
+                <div class="w-16 h-16 bg-[#00F0FF]/10 text-[#00F0FF] rounded-full flex items-center justify-center mx-auto mb-6 text-3xl">
+                    <i class="ph-fill ph-lock-key"></i>
+                </div>
+                
+                <h3 class="text-2xl font-bold text-white mb-2">Acceso Profesional Requerido</h3>
+                <p class="text-brand-text text-sm mb-8">
+                    ${motivo === "Límite superado" ? "Has alcanzado tus consultas gratuitas." : "Para verificar correos con Firewall, necesitamos un humano."}
+                    <br>Déjanos tus datos para continuar o recibir el reporte manual.
+                </p>
+
+                <form action="${FORM_LEAD_URL}" method="POST" class="space-y-4 text-left max-w-sm mx-auto">
+                    <input type="hidden" name="motivo" value="${motivo}">
+                    
+                    <div>
+                        <label class="text-xs text-slate-500 font-mono uppercase">Tu Nombre</label>
+                        <input type="text" name="nombre" required placeholder="Juan Pérez" 
+                            class="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:border-[#00F0FF] focus:outline-none">
+                    </div>
+                    
+                    <div>
+                        <label class="text-xs text-slate-500 font-mono uppercase">Tu Correo Corporativo</label>
+                        <input type="email" name="email" required placeholder="juan@empresa.com" 
+                            class="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:border-[#00F0FF] focus:outline-none">
+                    </div>
+
+                    <button type="submit" class="w-full bg-[#00F0FF] hover:bg-[#38BDF8] text-black font-bold py-3 rounded-lg transition mt-4">
+                        DESBLOQUEAR ACCESO
+                    </button>
+                </form>
+                
+                <button onclick="location.reload()" class="mt-4 text-xs text-slate-500 hover:text-white underline">Volver al inicio</button>
+            </div>
+        `;
+    }
+</script>
 </body>
 </html>
+
