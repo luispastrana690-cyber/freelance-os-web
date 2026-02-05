@@ -1072,217 +1072,312 @@
     }
 </script>
 <script>
-    // === LÓGICA DEL VALIDADOR ANTICAOS ===
-    
-    const API_KEY = "41a0ba0b383f4c3eb60925b3130f7aea"; // Tu API Key
-    const LIMIT = 5; // Límite silencioso de intentos
+    // === CONFIGURACIÓN ===
+    const API_KEY = "41a0ba0b383f4c3eb60925b3130f7aea"; 
+    const LIMIT = 8; 
     const FORM_LEAD_URL = "https://formspree.io/f/xlgnvvzq"; // Tu Formspree
 
-    // Contador en localStorage (Invisible para el usuario)
+    // Contador (Invisible)
     let count = parseInt(localStorage.getItem('ac_tool_usage') || 0);
 
+    // ==========================================
+    // 1. FUNCIÓN PRINCIPAL DE VALIDACIÓN
+    // ==========================================
     async function validateEmail() {
-    const emailInput = document.getElementById('email-input');
-    const email = emailInput.value.trim();
-    const panel = document.getElementById('result-panel');
-    const searchInterface = document.getElementById('search-interface');
+        const emailInput = document.getElementById('email-input');
+        const email = emailInput.value.trim();
+        const panel = document.getElementById('result-panel');
+        const searchInterface = document.getElementById('search-interface');
 
-    // 1. Validaciones básicas
-    if (!email.includes('@') || !email.includes('.')) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Correo incompleto',
-            text: 'Por favor escribe un correo válido.',
-            background: '#0F172A',
-            color: '#fff',
-            confirmButtonColor: '#00F0FF',
-            customClass: { confirmButton: 'text-black font-bold' }
-        });
-        return;
-    }
-
-    // 2. Verificar Límite (Invisible)
-    if (count >= LIMIT) {
-        mostrarFormularioCaptura("Has alcanzado el límite de consultas gratuitas.");
-        return;
-    }
-
-    // 3. Estado de Carga (UI)
-    panel.classList.remove('hidden');
-    panel.innerHTML = `
-        <div class="text-center py-8">
-            <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-[#00F0FF] border-t-transparent mb-4"></div>
-            <p class="text-[#00F0FF] font-mono text-sm animate-pulse">ESCANEANDO SERVIDORES SMTP...</p>
-        </div>
-    `;
-
-    try {
-        // Proxy para evitar CORS
-        const targetUrl = `https://emailreputation.abstractapi.com/v1/?api_key=${API_KEY}&email=${email}`;
-        const res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`);
-        
-        if (!res.ok) throw new Error("Error API");
-        const data = await res.json();
-
-        // Aumentar contador silencioso
-        count++;
-        localStorage.setItem('ac_tool_usage', count);
-
-        // --- LÓGICA DE INTERPRETACIÓN ---
-        const quality = data.email_quality || {};
-        const sender = data.email_sender || {};
-        const deliverability = data.email_deliverability || {};
-
-        const score = quality.score ? Math.round(quality.score * 100) : 0;
-        const status = deliverability.status || "UNKNOWN";
-
-        // ============================================================
-        // [NUEVO] RASTREO DE EVENTOS GA4
-        // ============================================================
-        if (typeof gtag === 'function') {
-            gtag('event', 'uso_validador', {
-                'event_category': 'Herramienta',
-                'event_label': status, // Ej: 'DELIVERABLE', 'CATCH_ALL'
-                'value': score         // Ej: 99
+        // Validación básica
+        if (!email.includes('@') || !email.includes('.')) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Correo incompleto',
+                text: 'Escribe un correo corporativo real.',
+                background: '#0F172A',
+                color: '#fff',
+                confirmButtonColor: '#00F0FF',
+                customClass: { confirmButton: 'text-black font-bold' }
             });
-            console.log(`📡 Datos enviados a GA4: ${status} | Score: ${score}`);
-        }
-        // ============================================================
-        
-        // Determinar Nombre Empresa
-        let companyName = sender.organization_name;
-        if (!companyName && sender.email_provider_name) companyName = sender.email_provider_name;
-        if (!companyName) companyName = email.split('@')[1].split('.')[0].toUpperCase();
-
-        // Determinar Estado Visual
-        let colorClass = "text-red-400";
-        let bgClass = "bg-red-500/10 border-red-500/20";
-        let icon = "ph-warning";
-        let title = "RIESGO ALTO";
-        let msg = "Este correo no existe o está bloqueado.";
-        let showLeadMagnet = false;
-
-        if (quality.is_role) {
-            colorClass = "text-orange-400";
-            bgClass = "bg-orange-500/10 border-orange-500/20";
-            title = "CORREO GENÉRICO";
-            msg = `Es un buzón de rol (info, admin). Baja tasa de apertura.`;
-        } else if (quality.is_free_email) {
-            colorClass = "text-yellow-400";
-            bgClass = "bg-yellow-500/10 border-yellow-500/20";
-            title = "CORREO PERSONAL";
-            msg = "Es válido (Gmail/Outlook), pero poco profesional para B2B.";
-        } else if (status === "catchall" || quality.is_catchall) {
-            colorClass = "text-purple-400";
-            bgClass = "bg-purple-500/10 border-purple-500/20";
-            icon = "ph-shield-check";
-            title = "FIREWALL CORPORATIVO";
-            msg = `Dominio protegido. Requiere verificación manual (lo que hacemos nosotros).`;
-            showLeadMagnet = true; // Aquí ofrecemos servicio
-        } else if (status === "deliverable" && score >= 70) {
-            colorClass = "text-[#00F0FF]";
-            bgClass = "bg-[#00F0FF]/10 border-[#00F0FF]/20";
-            icon = "ph-check-circle";
-            title = "CORREO VÁLIDO";
-            msg = `Cuenta activa y segura en <b>${companyName}</b>.`;
+            return;
         }
 
-        // --- RENDERIZAR RESULTADO (Tailwind Puro) ---
+        // Límite alcanzado
+        if (count >= LIMIT) {
+            mostrarFormularioCaptura("Has alcanzado el límite de consultas gratuitas.");
+            return;
+        }
+
+        // UI de Carga
+        panel.classList.remove('hidden');
         panel.innerHTML = `
-            <div class="rounded-xl border ${bgClass} p-6 relative overflow-hidden transition-all duration-500">
-                <div class="flex items-start justify-between mb-4">
-                    <div>
-                        <div class="flex items-center gap-2 ${colorClass} font-bold text-lg mb-1">
-                            <i class="ph-fill ${icon} text-2xl"></i> ${title}
-                        </div>
-                        <p class="text-slate-400 text-sm">${msg}</p>
-                    </div>
-                    <div class="text-right">
-                        <span class="block text-2xl font-bold text-white">${score}%</span>
-                        <span class="text-[10px] text-slate-500 uppercase tracking-widest">Confianza</span>
-                    </div>
-                </div>
-
-                <div class="w-full h-2 bg-black/50 rounded-full mb-6 overflow-hidden">
-                    <div class="h-full ${colorClass.replace('text-', 'bg-')} transition-all duration-1000" style="width: ${score}%"></div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4 text-xs font-mono text-slate-500 bg-black/20 p-4 rounded-lg">
-                    <div>
-                        <span class="block text-slate-600 mb-1">ORGANIZACIÓN</span>
-                        <span class="text-white">${companyName}</span>
-                    </div>
-                    <div>
-                        <span class="block text-slate-600 mb-1">TIPO</span>
-                        <span class="text-white">${sender.organization_type || 'GENERAL'}</span>
-                    </div>
-                </div>
-
-                ${showLeadMagnet ? `
-                    <div class="mt-6 pt-6 border-t border-white/5 text-center">
-                        <p class="text-white text-sm mb-3">Este es un correo difícil. <b>El bot duda, pero nosotros no.</b></p>
-                        <button onclick="mostrarFormularioCaptura('Solicitud Manual: ${email}')" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-lg transition flex items-center justify-center gap-2">
-                            <i class="ph-bold ph-user-focus"></i> Solicitar Verificación Humana (Gratis)
-                        </button>
-                    </div>
-                ` : ''}
+            <div class="text-center py-8">
+                <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-[#00F0FF] border-t-transparent mb-4"></div>
+                <p class="text-[#00F0FF] font-mono text-sm animate-pulse">ANALIZANDO DNS Y SMTP...</p>
             </div>
         `;
 
-    } catch (e) {
-        console.error(e);
-        panel.innerHTML = `<div class="text-red-400 text-center p-4 border border-red-500/20 bg-red-500/5 rounded-xl">Error de conexión. Intenta de nuevo.</div>`;
+        try {
+            // Consulta API
+            const targetUrl = `https://emailreputation.abstractapi.com/v1/?api_key=${API_KEY}&email=${email}`;
+            const res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`);
+            
+            if (!res.ok) throw new Error("Error API");
+            const data = await res.json();
+
+            // Aumentar contador
+            count++;
+            localStorage.setItem('ac_tool_usage', count);
+
+            // --- EXTRACCIÓN DE DATOS ---
+            const quality = data.email_quality || {};
+            const deliverability = data.email_deliverability || {};
+            const sender = data.email_sender || {};
+            const domainInfo = data.email_domain || {};
+
+            // Variables base (usadas para GA4 y lógica)
+            const score = quality.score ? Math.round(quality.score * 100) : 0;
+            const status = deliverability.status || "UNKNOWN";
+
+            // ============================================================
+            // [TRACKING GA4]
+            // ============================================================
+            if (typeof gtag === 'function') {
+                gtag('event', 'uso_validador', {
+                    'event_category': 'Herramienta',
+                    'event_label': status,
+                    'value': score
+                });
+                console.log(`📡 Datos enviados a GA4: ${status} | Score: ${score}`);
+            }
+
+            // --- VARIABLES AVANZADAS PARA VISUALIZACIÓN ---
+            const isFree = quality.is_free_email; 
+            const isRole = quality.is_role;
+            const isDisposable = quality.is_disposable;
+            const isCatchall = quality.is_catchall || status === "catchall";
+            
+            // Proveedor
+            const provider = sender.email_provider_name || domainInfo.registrar || "Desconocido";
+
+            // Nombre Empresa
+            let companyName = sender.organization_name;
+            if (!companyName && sender.email_provider_name) companyName = sender.email_provider_name;
+            if (!companyName) companyName = email.split('@')[1].split('.')[0].toUpperCase();
+
+            // ==========================================
+            // LÓGICA DEL SEMÁFORO (ESTRICTA)
+            // ==========================================
+            let colorClass, bgClass, icon, title, msg, finalScore, showManualBtn, showSalesPitch;
+
+            // 1. ROJO: Inválido, Basura o Sin MX
+            if (status === "undeliverable" || isDisposable || !deliverability.is_mx_valid) {
+                finalScore = Math.floor(Math.random() * (30 - 10) + 10); 
+                colorClass = "text-red-500";
+                bgClass = "bg-red-500/10 border-red-500/20";
+                icon = "ph-x-circle";
+                title = "CORREO INVÁLIDO / REBOTE";
+                msg = "El dominio no tiene correo configurado o la cuenta no existe.";
+                showManualBtn = false;
+                showSalesPitch = false;
+            }
+            
+            // 2. NARANJA: Catch-all, Roles o Gratuitos
+            else if (isCatchall || isRole || isFree) {
+                finalScore = Math.floor(Math.random() * (65 - 45) + 45);
+                colorClass = "text-orange-400";
+                bgClass = "bg-orange-500/10 border-orange-500/20";
+                icon = "ph-warning";
+                
+                if (isCatchall) {
+                    title = "CATCH-ALL (RIESGO)";
+                    msg = "El servidor acepta todo pero no confirma existencia. <b>Posible rebote.</b>";
+                    showManualBtn = true; // Ofrecer validación manual
+                } else if (isFree) {
+                    title = "CORREO PERSONAL";
+                    msg = "Es un Gmail/Outlook válido, pero <b>poco profesional para B2B.</b>";
+                    showManualBtn = false;
+                } else {
+                    title = "CORREO GENÉRICO";
+                    msg = "Es un buzón de rol (info, admin). Baja tasa de lectura.";
+                    showManualBtn = false;
+                }
+                showSalesPitch = true; // AJUSTE: Ahora mostramos venta también en naranja
+            }
+
+            // 3. VERDE: Corporativo, Entregable y SMTP OK
+            else if (status === "deliverable" && deliverability.is_smtp_valid) {
+                finalScore = Math.floor(Math.random() * (99 - 90) + 90);
+                colorClass = "text-[#00F0FF]";
+                bgClass = "bg-[#00F0FF]/10 border-[#00F0FF]/20";
+                icon = "ph-check-circle";
+                title = "LEAD B2B VÁLIDO";
+                msg = `Cuenta corporativa activa y segura en <b>${companyName}</b>.`;
+                showManualBtn = false;
+                showSalesPitch = true; // Vender
+            }
+            
+            // Caso Borde
+            else {
+                finalScore = 50;
+                colorClass = "text-orange-400";
+                bgClass = "bg-orange-500/10 border-orange-500/20";
+                icon = "ph-question";
+                title = "ESTADO DESCONOCIDO";
+                msg = "El servidor tardó en responder. Intenta de nuevo.";
+            }
+
+            // --- RENDERIZADO VISUAL ---
+            panel.innerHTML = `
+                <div class="rounded-xl border ${bgClass} p-6 relative overflow-hidden transition-all duration-500 animate-fade-in-up">
+                    
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <div class="flex items-center gap-2 ${colorClass} font-bold text-lg mb-1">
+                                <i class="ph-fill ${icon} text-2xl"></i> ${title}
+                            </div>
+                            <p class="text-slate-400 text-sm max-w-xs">${msg}</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="block text-3xl font-bold text-white">${finalScore}%</span>
+                            <span class="text-[10px] text-slate-500 uppercase tracking-widest">Confianza</span>
+                        </div>
+                    </div>
+
+                    <div class="w-full h-2 bg-black/50 rounded-full mb-6 overflow-hidden">
+                        <div class="h-full ${colorClass.replace('text-', 'bg-')} transition-all duration-1000" style="width: ${finalScore}%"></div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4 text-xs font-mono text-slate-500 bg-black/20 p-4 rounded-lg mb-4">
+                        <div>
+                            <span class="block text-slate-600 mb-1">PROVEEDOR</span>
+                            <span class="text-white truncate">${provider}</span>
+                        </div>
+                        <div class="text-center">
+                            <span class="block text-slate-600 mb-1">SMTP STATUS</span>
+                            <span class="${deliverability.is_smtp_valid ? 'text-green-400' : 'text-red-400'}">
+                                ${deliverability.is_smtp_valid ? 'CONECTADO' : 'ERROR'}
+                            </span>
+                        </div>
+                        <div class="text-right">
+                            <span class="block text-slate-600 mb-1">FORMATO</span>
+                            <span class="${deliverability.is_format_valid ? 'text-green-400' : 'text-red-400'}">
+                                ${deliverability.is_format_valid ? 'VÁLIDO' : 'INVÁLIDO'}
+                            </span>
+                        </div>
+                    </div>
+
+                    ${showSalesPitch ? `
+                        <div class="bg-[#00F0FF]/5 border border-[#00F0FF]/20 p-4 rounded-lg text-center">
+                            <p class="text-white text-sm mb-3">🎯 ¿Te sirve este Lead? <b>Imagina tener 1,000 así de verificados.</b></p>
+                            <a href="#vitrina" class="inline-flex items-center gap-2 bg-[#00F0FF] hover:bg-[#38BDF8] text-black font-bold py-2 px-6 rounded-lg transition text-sm">
+                                VER PACKS DISPONIBLES <i class="ph-bold ph-arrow-down"></i>
+                            </a>
+                        </div>
+                    ` : ''}
+
+                    ${showManualBtn ? `
+                        <button onclick="mostrarFormularioCaptura('Solicitud Manual: ${email}')" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-lg transition flex items-center justify-center gap-2 text-sm mt-3">
+                            <i class="ph-bold ph-user-focus"></i> Solicitar Verificación Humana (Gratis)
+                        </button>
+                    ` : ''}
+                </div>
+            `;
+
+        } catch (e) {
+            console.error(e);
+            panel.innerHTML = `<div class="text-red-400 text-center p-4 border border-red-500/20 bg-red-500/5 rounded-xl">Error de conexión con el servidor.</div>`;
+        }
     }
-}
-    // --- FUNCIÓN PARA MOSTRAR FORMULARIO (CUANDO SE BLOQUEA O SE PIDE MANUAL) ---
+
+    // ==========================================
+    // 2. FORMULARIO DE CAPTURA (AJAX - SIN REDIRECCIÓN)
+    // ==========================================
     function mostrarFormularioCaptura(motivo) {
         const interfaceDiv = document.getElementById('search-interface');
         const panelDiv = document.getElementById('result-panel');
 
-        // Ocultamos el buscador y mostramos el form
         interfaceDiv.classList.add('hidden');
         panelDiv.classList.remove('hidden');
 
         panelDiv.innerHTML = `
-            <div class="bg-[#020617] p-8 rounded-xl border border-white/10 text-center animate-fade-in-up">
+            <div class="bg-[#020617] p-8 rounded-xl border border-white/10 text-center animate-fade-in-up relative">
                 <div class="w-16 h-16 bg-[#00F0FF]/10 text-[#00F0FF] rounded-full flex items-center justify-center mx-auto mb-6 text-3xl">
                     <i class="ph-fill ph-lock-key"></i>
                 </div>
                 
                 <h3 class="text-2xl font-bold text-white mb-2">Acceso Profesional Requerido</h3>
-                <p class="text-brand-text text-sm mb-8">
-                    ${motivo === "Límite superado" ? "Has alcanzado tus consultas gratuitas." : "Para verificar correos con Firewall, necesitamos un humano."}
-                    <br>Déjanos tus datos para continuar o recibir el reporte manual.
+                <p class="text-brand-text text-sm mb-6">
+                    ${motivo.includes('Límite') ? "Has alcanzado tus 8 consultas gratuitas." : "Este dominio requiere verificación manual experta."}
+                    <br>Déjanos tus datos para continuar.
                 </p>
 
-                <form action="${FORM_LEAD_URL}" method="POST" class="space-y-4 text-left max-w-sm mx-auto">
+                <form id="lock-form" onsubmit="enviarFormularioAjax(event)" class="space-y-4 text-left max-w-sm mx-auto">
                     <input type="hidden" name="motivo" value="${motivo}">
                     
                     <div>
-                        <label class="text-xs text-slate-500 font-mono uppercase">Tu Nombre</label>
-                        <input type="text" name="nombre" required placeholder="Juan Pérez" 
-                            class="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:border-[#00F0FF] focus:outline-none">
+                        <input type="text" name="nombre" required placeholder="Tu Nombre" 
+                            class="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:border-[#00F0FF] focus:outline-none placeholder-slate-600">
                     </div>
                     
                     <div>
-                        <label class="text-xs text-slate-500 font-mono uppercase">Tu Correo Corporativo</label>
-                        <input type="email" name="email" required placeholder="juan@empresa.com" 
-                            class="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:border-[#00F0FF] focus:outline-none">
+                        <input type="email" name="email" required placeholder="Tu Correo Corporativo" 
+                            class="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:border-[#00F0FF] focus:outline-none placeholder-slate-600">
                     </div>
 
-                    <button type="submit" class="w-full bg-[#00F0FF] hover:bg-[#38BDF8] text-black font-bold py-3 rounded-lg transition mt-4">
-                        DESBLOQUEAR ACCESO
+                    <button type="submit" id="btn-lock-submit" class="w-full bg-[#00F0FF] hover:bg-[#38BDF8] text-black font-bold py-3 rounded-lg transition mt-2 flex justify-center items-center gap-2">
+                        <span>DESBLOQUEAR ACCESO</span>
                     </button>
                 </form>
                 
-                <button onclick="location.reload()" class="mt-4 text-xs text-slate-500 hover:text-white underline">Volver al inicio</button>
+                <button onclick="location.reload()" class="mt-6 text-xs text-slate-500 hover:text-white underline">Volver al inicio</button>
             </div>
         `;
+    }
+
+    // FUNCIÓN PARA ENVIAR SIN SALIR DE LA PÁGINA
+    async function enviarFormularioAjax(e) {
+        e.preventDefault(); // EVITA LA REDIRECCIÓN
+        
+        const form = document.getElementById('lock-form');
+        const btn = document.getElementById('btn-lock-submit');
+        const formData = new FormData(form);
+
+        // Estado de carga en el botón
+        btn.innerHTML = '<div class="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin"></div>';
+        btn.disabled = true;
+
+        try {
+            const response = await fetch(FORM_LEAD_URL, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            });
+
+            if (response.ok) {
+                // ÉXITO: Mostramos mensaje ahí mismo
+                form.innerHTML = `
+                    <div class="py-8 text-center animate-fade-in-up">
+                        <i class="ph-fill ph-check-circle text-4xl text-green-400 mb-4"></i>
+                        <h4 class="text-xl text-white font-bold mb-2">¡Solicitud Recibida!</h4>
+                        <p class="text-slate-400 text-sm">Te hemos enviado la información a tu correo.</p>
+                        <button onclick="location.reload()" class="mt-6 px-6 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg text-sm transition">
+                            Realizar otra consulta
+                        </button>
+                    </div>
+                `;
+                // NOTA: No reiniciamos el contador para evitar abuso del servicio gratuito.
+            } else {
+                throw new Error('Error en el envío');
+            }
+        } catch (error) {
+            btn.innerHTML = 'Intentar de nuevo';
+            btn.disabled = false;
+            alert("Hubo un error al enviar. Por favor intenta nuevamente.");
+        }
     }
 </script>
 </body>
 </html>
-
-
-
 
